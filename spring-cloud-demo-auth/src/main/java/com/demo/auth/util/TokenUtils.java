@@ -19,6 +19,8 @@ public class TokenUtils {
 
     @Autowired
     private RedisUtils redisUtils;
+    @Autowired
+    private SaltUtils saltUtils;
 
     /**
      * 创建token
@@ -27,8 +29,9 @@ public class TokenUtils {
      */
     public Token createToken(User user){
         String tokenStr = createTokenStr(user);
-        String refreshToken = MD5Encoder.encode((user.getUserName()+"@"+new DateUtils().nowTime()+"#").getBytes());
+        String refreshToken = MD5Encoder.encode((user.getUserName()+saltUtils.getSalt(8)+DateUtils.nowTime()).substring(0, 16).getBytes());
         Token token = new Token(tokenStr,System.currentTimeMillis()+DEAD_TIME,refreshToken,user);
+        System.out.println(token);
         redisUtils.storeValue(tokenStr,token, TimeUnit.MILLISECONDS,DEAD_TIME);
         //获取当前时间
         long now = System.currentTimeMillis();
@@ -36,18 +39,18 @@ public class TokenUtils {
     }
 
     private String createTokenStr(User user) {
-        return new String(Base64.getEncoder().encodeToString(
-                (user.getUserName()+"@"+new DateUtils().nowTime() +"#"+ Commons.SECRET.getBytes()).getBytes())
-        );
+        return Base64.getEncoder().encodeToString(
+                (user.getUserName()+saltUtils.getSalt(8) + new DateUtils().nowTime() + user.getRole()).getBytes());
     }
 
     public Token refreshToken(String accessToken,String refreshToken){
         //获取未过期的token
         Token token = (Token) redisUtils.getValue(accessToken);
+        if (token == null) return null;
         //判断refreshToken是否一致
-        if(!StringUtils.isEmpty(refreshToken)&&refreshToken.equals(token.getRefreshToken())){
-            //重新获取token字符串
-            String tokenStr =createToken(token.getUser());
+        if(!StringUtils.isEmpty(refreshToken) && refreshToken.equals(token.getRefreshToken())){
+            //重新创建token字符串
+            String tokenStr = createTokenStr(token.getUser());
             //刷新token字符串
             token.setToken(tokenStr);
             //刷新过期时间
@@ -58,9 +61,11 @@ public class TokenUtils {
             redisUtils.delByKey(accessToken);
             return token;
         }
+        return null;
     }
 
     public boolean accessToken(String accessToken,String role){
+        //获取未过期的token
         Token token = (Token)redisUtils.getValue(accessToken);
         if(token != null && token.getUser().getRole().equals(role)){
             return true;

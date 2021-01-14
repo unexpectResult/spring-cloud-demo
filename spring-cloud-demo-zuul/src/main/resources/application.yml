@@ -1,0 +1,19 @@
+spring:
+  redis:
+    host: localhost
+    port: 6379
+  application:
+    name: zuul-server
+server:
+  port: 8889
+  servlet:
+    context-path: /
+eureka:
+  client:
+    service-url:
+      defaultZone: http://user:admin@127.0.0.1:8888/eureka
+zuul:
+  routes:
+    authServer:
+      path: /authToken/**
+      service-id: auth-server

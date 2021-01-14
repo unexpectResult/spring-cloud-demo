@@ -11,7 +11,7 @@ public class AuthRunner {
 
     public static void main(String[] args){
         SpringApplication.run(AuthRunner.class,args);
-        System.out.println("起飞");
+        System.out.println("\nauthServer success\n");
     }
 
 }
