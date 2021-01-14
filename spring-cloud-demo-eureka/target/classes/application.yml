@@ -1,0 +1,19 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: eureka-server
+  security:
+    user:
+      name: user
+      password: admin
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${server.port}/eureka
+    register-with-eureka: false
+    fetch-registry: false
+  instance:
+    hostname:127.0.0.1
