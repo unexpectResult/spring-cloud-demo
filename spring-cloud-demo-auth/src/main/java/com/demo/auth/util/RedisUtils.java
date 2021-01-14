@@ -17,7 +17,7 @@ public class RedisUtils {
      *
      * @param key
      */
-    public void DelByKey(String key){
+    public void delByKey(String key){
         redisTemplate.delete(key);
     }
 

@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Token {
+public class User {
 
-    private String token;
-    private Long exp;
-    private String refreshToken;
-    private User user;
+    private Integer userId;
+    private String realName;
+    private String userName;
+    private String password;
+    private String Role;
 
 }
