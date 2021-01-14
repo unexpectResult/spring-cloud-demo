@@ -1,0 +1,22 @@
+spring:
+  redis:
+    host: 127.0.0.1
+  application: auth-server
+#注册到eureka中的名字
+    name: auth-server
+  datasource:
+    password: root
+    username: root
+    url: jdbc:mysql://localhost:3306/oa?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    type: com.alibaba.druid.pool.DruidDataSource
+server:
+  servlet:
+    #定制根路径
+    context-path: /
+  port: 8001
+eureka:
+  client:
+    service-url:
+      defaultZone:http://user:admin@127.0.0.1:8888/eureka
+
