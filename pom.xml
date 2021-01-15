@@ -13,6 +13,10 @@
         <module>spring-cloud-demo-web</module>
         <module>spring-cloud-demo-dao</module>
         <module>spring-cloud-demo-zuul</module>
+        <module>spring-demo-commons</module>
+        <module>spring-cloud-demo-commons</module>
+        <module>spring-cloud-demo-commoms</module>
+        <module>spring-cloud-demo-commons</module>
     </modules>
 
     <packaging>pom</packaging>

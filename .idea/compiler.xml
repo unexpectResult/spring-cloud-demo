@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -10,6 +11,7 @@
         <module name="spring-cloud-demo-zuul" />
         <module name="spring-cloud-demo-web" />
         <module name="spring-cloud-demo-dao" />
+        <module name="spring-cloud-demo-commons" />
         <module name="spring-cloud-demo-eureka" />
       </profile>
     </annotationProcessing>
@@ -17,6 +19,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="spring-cloud-demo-auth" options="-parameters" />
+      <module name="spring-cloud-demo-commons" options="-parameters" />
       <module name="spring-cloud-demo-dao" options="-parameters" />
       <module name="spring-cloud-demo-eureka" options="-parameters" />
       <module name="spring-cloud-demo-web" options="-parameters" />

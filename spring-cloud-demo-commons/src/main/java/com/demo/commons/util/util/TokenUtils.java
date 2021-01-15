@@ -1,11 +1,11 @@
-package com.demo.auth.util;
+package com.demo.commons.util.util;
 
-import com.demo.auth.domain.system.Token;
-import com.demo.auth.domain.system.User;
-import org.apache.commons.lang.StringUtils;
+import com.demo.commons.domain.system.Token;
+import com.demo.commons.domain.system.User;
 import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.Base64;
 import java.util.concurrent.TimeUnit;
