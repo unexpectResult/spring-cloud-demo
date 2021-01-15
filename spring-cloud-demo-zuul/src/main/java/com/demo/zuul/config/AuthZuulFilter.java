@@ -1,7 +1,9 @@
 package com.demo.zuul.config;
 
 import com.demo.commons.domain.system.Token;
+import com.demo.commons.domain.system.User;
 import com.demo.commons.util.RedisUtils;
+import com.demo.zuul.service.daoserverfeignservice.RoleService;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
@@ -18,6 +20,8 @@ public class AuthZuulFilter extends ZuulFilter {
 
     @Autowired
     RedisUtils redisUtils;
+    @Autowired
+    RoleService roleService;
 
     @Override
     public String filterType() {
@@ -50,9 +54,15 @@ public class AuthZuulFilter extends ZuulFilter {
         if(!StringUtils.isEmpty(tokenStr)){
             Token token = (Token) redisUtils.getValue(tokenStr);
             if(token != null){
-
+                User user = token.getUser();
+                // TODO访问数仓判断当前role是否可以访问该接口
+                Boolean isPermit = (Boolean) roleService.isPermit(user.getUserName()).getData();
+                if(isPermit) RequestContext.getCurrentContext().setSendZuulResponse(false);
             }
         }
+        RequestContext.getCurrentContext().setSendZuulResponse(false);
+        RequestContext.getCurrentContext().setResponseStatusCode(403);
+        RequestContext.getCurrentContext().setResponseBody("无法访问");
         return null;
     }
 }
