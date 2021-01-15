@@ -1,27 +1,22 @@
 package com.demo.auth.util;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
-
 import java.text.SimpleDateFormat;
 
-@Component
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class DateUtils {
 
-    public SimpleDateFormat dateFormat;
+
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat();
+
 
     /**
      * 获取当前时间字符串
-     * @return
+     *
+     * @return string
      */
-    public String nowTime(){
+    public static String nowTime() {
         dateFormat.applyPattern("yyyyMMddhhmmss");
         return dateFormat.format(System.currentTimeMillis());
     }
+
 
 }

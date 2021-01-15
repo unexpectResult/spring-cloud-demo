@@ -13,6 +13,8 @@
         <module>spring-cloud-demo-web</module>
         <module>spring-cloud-demo-dao</module>
         <module>spring-cloud-demo-zuul</module>
+        <module>spring-cloud-demo-commons</module>
+
     </modules>
 
     <packaging>pom</packaging>
