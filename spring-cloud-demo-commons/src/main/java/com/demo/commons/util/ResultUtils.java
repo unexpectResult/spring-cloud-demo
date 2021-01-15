@@ -1,4 +1,4 @@
-package com.demo.commons.util.util;
+package com.demo.commons.util;
 
 import com.demo.commons.domain.enums.SystemEnum;
 import com.demo.commons.domain.system.Result;

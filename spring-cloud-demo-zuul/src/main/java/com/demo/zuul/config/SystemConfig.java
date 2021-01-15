@@ -1,7 +1,7 @@
 package com.demo.zuul.config;
 
 
-import com.demo.commons.util.util.RedisUtils;
+import com.demo.commons.util.RedisUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

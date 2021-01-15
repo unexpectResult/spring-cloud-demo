@@ -1,17 +1,15 @@
 package com.demo.zuul.config;
 
 import com.demo.commons.domain.system.Token;
-import com.demo.commons.util.util.RedisUtils;
+import com.demo.commons.util.RedisUtils;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.awt.image.renderable.RenderContext;
 
 @Component
 public class AuthZuulFilter extends ZuulFilter {
