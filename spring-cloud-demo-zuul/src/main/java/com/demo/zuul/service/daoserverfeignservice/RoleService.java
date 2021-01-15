@@ -6,13 +6,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+@Service
 @FeignClient(value = "dao-server")
 // ,url = "http://127.0.0.1:8002/"
-@Service
+
 public interface RoleService {
 
     @GetMapping("/role/isPermit/{username}")
-    public Result isPermit(@PathVariable String username);
+    Result isPermit(@PathVariable String username);
 
 
 }
