@@ -58,6 +58,7 @@ public class AuthZuulFilter extends ZuulFilter {
                 // TODO访问数仓判断当前role是否可以访问该接口
                 Boolean isPermit = (Boolean) roleService.isPermit(user.getUserName()).getData();
                 if(isPermit) RequestContext.getCurrentContext().setSendZuulResponse(false);
+                return null;
             }
         }
         RequestContext.getCurrentContext().setSendZuulResponse(false);
