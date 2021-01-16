@@ -38,7 +38,7 @@ public class TokenUtils {
 
     private String createTokenStr(User user) {
         return Base64.getEncoder().encodeToString(
-                (user.getUserName()+saltUtils.getSalt(8) + new DateUtils().nowTime() + user.getRole()).getBytes());
+                (user.getUserName()+saltUtils.getSalt(8) + new DateUtils().nowTime() + user.getUserPhone()).getBytes());
     }
 
     public Token refreshToken(String accessToken,String refreshToken){
@@ -62,10 +62,10 @@ public class TokenUtils {
         return null;
     }
 
-    public boolean accessToken(String accessToken,String role){
+    public boolean accessToken(String accessToken,String oldToken){
         //获取未过期的token
         Token token = (Token)redisUtils.getValue(accessToken);
-        if(token != null && token.getUser().getRole().equals(role)){
+        if(token != null && token.getRefreshToken().equals(oldToken)){
             return true;
         }
         return false;

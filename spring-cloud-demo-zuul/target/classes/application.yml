@@ -18,3 +18,7 @@ zuul:
       path: /authToken/**
       #服务名称
       service-id: auth-server
+    daoServer:
+      path: /dao/**
+      #服务名称
+      service-id: dao-server

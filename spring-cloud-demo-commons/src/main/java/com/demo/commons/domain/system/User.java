@@ -4,15 +4,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.util.List;
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@NoArgsConstructor
+public class User implements Serializable {
 
     private Integer userId;
-    private String realName;
+    private String userPhone;
+    private String userPassword;
     private String userName;
-    private String password;
-    private String Role;
+    private Employee employee;
+    private String salt;
+    private String profilePhoto;
+    private String userAddress;
+    private String contact;
+    private List<NavigationBar> navigationBars;
+    //多對多
+    private List<Role> roles;
+    //一对多
+    private List<com.demo.commons.domain.system.Permission> permissions;
 
 }

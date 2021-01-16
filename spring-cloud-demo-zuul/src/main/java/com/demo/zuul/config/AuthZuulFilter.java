@@ -1,9 +1,12 @@
 package com.demo.zuul.config;
 
+import com.alibaba.fastjson.JSON;
 import com.demo.commons.domain.system.Token;
 import com.demo.commons.domain.system.User;
 import com.demo.commons.util.RedisUtils;
+import com.demo.commons.util.ResultUtils;
 import com.demo.zuul.service.daoserverfeignservice.RoleService;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonNullFormatVisitor;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
@@ -12,11 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Component
 public class AuthZuulFilter extends ZuulFilter {
 
-    HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
+
 
     @Autowired
     RedisUtils redisUtils;
@@ -35,10 +40,11 @@ public class AuthZuulFilter extends ZuulFilter {
 
     @Override
     public boolean shouldFilter() {
-
+        HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         String url = request.getRequestURL().toString();
         boolean isStatic = url.contains("static");
         boolean isAuth = url.contains("authToken");
+        // boolean isDao = url.contains("dao");
         // if(!isStatic && !isAuth){
         //     return true;
         // }
@@ -49,7 +55,9 @@ public class AuthZuulFilter extends ZuulFilter {
 
     @Override
     public Object run() throws ZuulException {
-
+        HttpServletResponse httpServletResponse = RequestContext.getCurrentContext().getResponse();
+        httpServletResponse.setContentType("text/html;charset=UTF-8");
+        HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         String tokenStr = request.getParameter("token");
         if(!StringUtils.isEmpty(tokenStr)){
             Token token = (Token) redisUtils.getValue(tokenStr);
@@ -62,8 +70,14 @@ public class AuthZuulFilter extends ZuulFilter {
             }
         }
         RequestContext.getCurrentContext().setSendZuulResponse(false);
-        RequestContext.getCurrentContext().setResponseStatusCode(403);
-        RequestContext.getCurrentContext().setResponseBody("无法访问");
+        httpServletResponse.setStatus(403);
+        // httpServletResponse.setContentType("application/json; charset=utf-8");
+        try {
+            httpServletResponse.getWriter().write(JSON.toJSONString(ResultUtils.fail("没有权限")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        RequestContext.getCurrentContext().setResponse(httpServletResponse);
         return null;
     }
 }

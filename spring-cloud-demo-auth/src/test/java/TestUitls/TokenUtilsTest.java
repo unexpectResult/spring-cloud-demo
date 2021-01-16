@@ -26,7 +26,7 @@ public class TokenUtilsTest {
 
     @Test
     public void createToken() {
-        Token token = tokenUtils.createToken(new User(1, "admin", "admin", "admin", "admin"));
-        System.out.println(token);
+        // Token token = tokenUtils.createToken(new User(1, "admin", "admin", "admin", "admin"));
+        // System.out.println(token);
     }
 }

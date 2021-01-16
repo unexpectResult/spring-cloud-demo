@@ -1,5 +1,6 @@
 package com.demo.auth.service;
 
+import com.demo.auth.domain.system.Result;
 import com.demo.auth.domain.system.Token;
 
 public interface TokenService {
@@ -19,5 +20,7 @@ public interface TokenService {
      * @return
      */
     String grantTypeCode(String buildName);
+
+    Token refreshToken(String accessToken, String refreshToken);
 
 }

@@ -16,7 +16,7 @@ public class RoleController {
     @GetMapping("/isPermit/{username}")
     public Result isPermit(@PathVariable String username){
 
-        System.out.println("username");
+        System.out.println(username);
         return ResultUtils.success(true);
 
     }
