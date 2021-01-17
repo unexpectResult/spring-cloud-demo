@@ -1,6 +1,8 @@
 package com.demo.zuul.config;
 
 import com.alibaba.fastjson.JSON;
+import com.demo.commons.domain.system.Permission;
+import com.demo.commons.domain.system.Role;
 import com.demo.commons.domain.system.Token;
 import com.demo.commons.domain.system.User;
 import com.demo.commons.util.RedisUtils;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @Component
 public class AuthZuulFilter extends ZuulFilter {
@@ -55,29 +58,28 @@ public class AuthZuulFilter extends ZuulFilter {
 
     @Override
     public Object run() throws ZuulException {
-        HttpServletResponse httpServletResponse = RequestContext.getCurrentContext().getResponse();
-        httpServletResponse.setContentType("text/html;charset=UTF-8");
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
+        String URI = request.getRequestURI();
         String tokenStr = request.getParameter("token");
-        if(!StringUtils.isEmpty(tokenStr)){
+        if (!StringUtils.isEmpty(tokenStr)) {
             Token token = (Token) redisUtils.getValue(tokenStr);
-            if(token != null){
-                User user = token.getUser();
-                // TODO访问数仓判断当前role是否可以访问该接口
-                Boolean isPermit = (Boolean) roleService.isPermit(user.getUserName()).getData();
-                if(isPermit) RequestContext.getCurrentContext().setSendZuulResponse(false);
-                return null;
+            if (token != null) {
+                List<Permission> permissions = token.getUser().getPermissions();
+                int i = 1;
+                for (Permission perm : permissions) {
+                    //将权限字符串用addStringPermission方法授权
+                    String permStr = perm.getKeyword();
+                    System.out.println(permStr);
+                    if (perm.getPermissionUrl().equals(URI)) {
+                        return null;
+                    }
+                }
             }
+            RequestContext.getCurrentContext().getResponse().setContentType("text/json;charset=utf-8");
+            RequestContext.getCurrentContext().setSendZuulResponse(false);
+            RequestContext.getCurrentContext().setResponseStatusCode(403);
+            RequestContext.getCurrentContext().setResponseBody(JSON.toJSONString(ResultUtils.fail("无权访问")));
         }
-        RequestContext.getCurrentContext().setSendZuulResponse(false);
-        httpServletResponse.setStatus(403);
-        // httpServletResponse.setContentType("application/json; charset=utf-8");
-        try {
-            httpServletResponse.getWriter().write(JSON.toJSONString(ResultUtils.fail("没有权限")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        RequestContext.getCurrentContext().setResponse(httpServletResponse);
         return null;
     }
 }

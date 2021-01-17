@@ -1,6 +1,7 @@
 package com.demo.auth.mapper;
 
-import com.demo.auth.domain.system.User;
+import com.demo.commons.domain.system.Employee;
+import com.demo.commons.domain.system.User;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -14,6 +15,7 @@ public interface UserMapper {
      */
     User login(String username);
 
+    Employee queryEmployee(Integer userId);
 
 
 }

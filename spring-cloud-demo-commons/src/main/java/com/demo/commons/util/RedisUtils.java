@@ -39,6 +39,7 @@ public class RedisUtils {
      * @return
      */
     public Object getValue(String key){
+        System.out.println(key);
         return redisTemplate.opsForValue().get(key);
     }
 

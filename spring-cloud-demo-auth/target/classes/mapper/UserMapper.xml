@@ -4,18 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.demo.auth.mapper.UserMapper">
 
-    <resultMap type="com.demo.auth.domain.system.User" id="ROLE_PERMISSION_MAP">
+    <resultMap type="com.demo.commons.domain.system.User" id="ROLE_PERMISSION_MAP">
         <id column="userId" property="userId"/>
         <result property="userPhone" column="userPhone" />
         <result property="userPassword" column="userPassword" />
         <result property="salt" column="salt" />
         <result property="userName" column="userName" />
-        <collection property="roles" ofType="com.demo.auth.domain.system.Role">
+        <collection property="roles" ofType="com.demo.commons.domain.system.Role">
             <id column="roleId" property="roleId"/>
             <result column="roleName" property="roleName"/>
             <result column="roleLevel" property="roleLevel"/>
         </collection>
-        <collection property="permissions" ofType="com.demo.auth.domain.system.Permission">
+        <collection property="permissions" ofType="com.demo.commons.domain.system.Permission">
             <id column="permissionId" property="permissionId"/>
             <result column="keyword" property="keyword"/>
             <result column="permissionName" property="permissionName"/>

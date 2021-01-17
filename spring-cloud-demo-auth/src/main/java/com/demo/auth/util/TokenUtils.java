@@ -1,9 +1,10 @@
 package com.demo.auth.util;
 
-import com.demo.auth.domain.system.Token;
-import com.demo.auth.domain.system.User;
+import com.demo.commons.domain.system.Token;
+import com.demo.commons.domain.system.User;
+import com.demo.commons.util.RedisUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.tomcat.util.security.MD5Encoder;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,10 +28,12 @@ public class TokenUtils {
      */
     public Token createToken(User user){
         String tokenStr = createTokenStr(user);
-        String refreshToken = MD5Encoder.encode((user.getUserName()+saltUtils.getSalt(8)+DateUtils.nowTime()).substring(0, 16).getBytes());
+        String refreshToken = new Md5Hash(tokenStr,user.getSalt(), 1024).toString();
         Token token = new Token(tokenStr,System.currentTimeMillis()+DEAD_TIME,refreshToken,user);
         System.out.println(token);
         redisUtils.storeValue(tokenStr,token, TimeUnit.MILLISECONDS,DEAD_TIME);
+        Token token1 = (Token) redisUtils.getValue(tokenStr);
+        System.out.println("token1:"+token1);
         //获取当前时间
         long now = System.currentTimeMillis();
         return token;

@@ -1,7 +1,7 @@
 package com.demo.auth.config;
 
 import com.alibaba.fastjson.JSON;
-import com.demo.auth.util.ResultUtils;
+import com.demo.commons.util.ResultUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 

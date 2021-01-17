@@ -1,6 +1,8 @@
 package com.demo.commons.domain.system;
 
-public class Commons {
+import java.io.Serializable;
+
+public class Commons implements Serializable {
 
     /**
      * 加盐

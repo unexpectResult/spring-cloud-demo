@@ -1,11 +1,12 @@
 package com.demo.auth.service.impl;
 
-import com.demo.auth.domain.system.Commons;
-import com.demo.auth.domain.system.Token;
-import com.demo.auth.domain.system.User;
+import com.demo.auth.mapper.EmployeeMapper;
 import com.demo.auth.mapper.UserMapper;
 import com.demo.auth.service.TokenService;
 import com.demo.auth.util.TokenUtils;
+import com.demo.commons.domain.system.Commons;
+import com.demo.commons.domain.system.Token;
+import com.demo.commons.domain.system.User;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,14 @@ public class TokenServiceImpl implements TokenService {
     @Autowired
     private UserMapper userMapper;
     @Autowired
+    private EmployeeMapper employeeMapper;
+    @Autowired
     private TokenUtils tokenUtils;
 
     @Override
-    public Token authLogin(String username,String password) {
+    public Token authLogin(String username, String password) {
         User user = userMapper.login(username);
+        user.setEmployee(employeeMapper.queryEmployeeByUserId(user.getUserId()));
         String md5HashPassword = new Md5Hash(password,user.getSalt(), 1024).toString();
         if(user == null){
             throw new RuntimeException(Commons.USER_NOT_FOUND);

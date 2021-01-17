@@ -1,8 +1,6 @@
 package TestUitls;
 
 import com.demo.auth.AuthRunner;
-import com.demo.auth.domain.system.Token;
-import com.demo.auth.domain.system.User;
 import com.demo.auth.util.TokenUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;

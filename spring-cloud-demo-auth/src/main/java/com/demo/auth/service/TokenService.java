@@ -1,7 +1,6 @@
 package com.demo.auth.service;
 
-import com.demo.auth.domain.system.Result;
-import com.demo.auth.domain.system.Token;
+import com.demo.commons.domain.system.Token;
 
 public interface TokenService {
 
@@ -11,7 +10,7 @@ public interface TokenService {
      * @param username
      * @return
      */
-    Token authLogin(String username,String password);
+    Token authLogin(String username, String password);
 
     /**
      * 授权码模式

@@ -1,10 +1,7 @@
 package com.demo.auth.domain.enums;
 
 
-import com.demo.auth.domain.system.Commons;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.demo.commons.domain.system.Commons;
 
 public enum  SystemEnum {
 
