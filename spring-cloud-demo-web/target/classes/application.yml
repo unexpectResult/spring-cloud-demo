@@ -1,0 +1,16 @@
+spring:
+  #注册到eureka中的名字
+  application:
+    name: web-server
+  main:
+    allow-bean-definition-overriding: true
+server:
+  servlet:
+    #定制根路径
+    context-path: /
+  port: 8010
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://user:admin@127.0.0.1:8888/eureka
